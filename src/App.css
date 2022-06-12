@@ -1,0 +1,261 @@
+@import 'antd/dist/antd.css';
+
+.Search_App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Nunito", sans-serif;
+  background-image: linear-gradient(90deg, #410076, #8820dd);
+}
+.Search_body {
+  padding: 0;
+  margin: 0;
+}
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background: linear-gradient(135deg, #b9b3b3, #f5dfe6);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.site-card-wrapper {
+  padding: 30px;
+  background: #ececec;
+}
+
+.app-wrapper {
+  background-color: #fff;
+  min-width: 650px;
+  min-height: 650px;
+  padding: 30px;
+  box-sizing: 5px;
+}
+
+.title {
+  color: #f80759;
+  text-align: center;
+  margin: 80px 0px 40px 0px;
+}
+
+.name,
+.email,
+.password {
+  /* margin: 20px; */
+ 
+}
+
+.post_content{
+  color: #969292;
+  font-size: 16px;
+  margin-left: 6px;
+  display: flex;
+
+}
+
+.password {
+  margin-bottom: 40px;
+}
+
+.input {
+  height: 32px;
+  font-size: 20px;
+  outline: none;
+  width: 100%;
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  border-bottom-style: 2px solid black;
+  margin-bottom: 10px;
+  background-color: #ebdddd;
+}
+
+.edit_input {
+  height: 32px;
+  font-size: 20px;
+  outline: none;
+  width: 95%;
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  border-bottom-style: 2px solid black;
+  margin-bottom: 10px;
+  background-color: #ebdddd;
+}
+
+.comment {
+  height: 32px;
+  font-size: 20px;
+  padding: 5px;
+  outline: none;
+  width: 20%;
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  border-bottom-style: 2px solid black;
+  margin-bottom: 10px;
+  background-color: #0689C2;
+  border-radius: 5px;
+}
+
+.ant-card-head{
+  width: 100%;
+}
+
+.edit_from{
+  display: flex;
+}
+
+.error {
+  color: red;
+}
+.Data_Show{
+  font-family: 'Hanalei Fill', cursive;
+}
+
+.post_size{
+  font-size: 10px;
+}
+
+.home_post{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+}
+
+.submit {
+    text-transform: uppercase;
+    font-size: 15px;
+    border-radius: 25px;
+    color: white;
+    padding: 9px 37px;
+    background: linear-gradient(to right, #639adf, #6c90c7);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px, 19px, 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.1s;
+    margin-left: 15px !important;
+    /* margin-top: 10px; */
+    border-radius-right: 50%;
+
+
+}
+
+button:active {
+  transform: translateY(2px);
+}
+
+.form-success {
+  display: flex;
+  justify-content: center;
+  margin-top: 250px;
+  min-width: 570px;
+  color: #f80759;
+}
+
+.table,
+.first_row,
+.second_row,
+.third_row,
+.fourth_row,
+.fith_row {
+  font: bold;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid;
+}
+
+.image_profile{
+  padding-left: 20px;
+  text-align: left;
+  height: 90%;
+  /* width: 90%; */
+  padding-bottom: 10px;
+  border-radius: 50%;
+  padding: 10px;
+  border: 5px solid #060505;
+  /* background-color: #121211; */
+  /* box-shadow: 0 0 30px 30px #ffa500; */
+}
+.com{
+  display: flex;
+    place-content: space-between;
+}
+
+.App {
+  text-align: center;
+}
+.App_profile{
+  padding-left: 63px;
+}
+.App-header {
+  /* background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(15px + 2vmin);
+  color: white; */
+}
+
+.position{
+  display: inline;
+}
+.cas{
+  padding-right: 239px;
+  gap: 5px;
+  justify-content: left;
+  width: 100%;
+}
+/* .button_like{
+  color: #060505;
+} */
+
+.image_picture{
+  vertical-align: middle;
+  height: 50%;
+  width: 100%;
+}
+
+.full_div{
+  background: #ececec;
+}
+
+.cal_1{
+  padding: 10px;
+}
+
+.cal_2{
+  padding: 10px;
+}
+
+.cal_3{
+  padding: 10px;
+}
+
+.qus_call{
+  display: inline-block;
+    flex: 1 1;
+    padding: 2px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.list_name{
+  background: aquamarine;
+}
