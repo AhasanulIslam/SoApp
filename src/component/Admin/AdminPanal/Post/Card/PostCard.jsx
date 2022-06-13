@@ -1,5 +1,5 @@
-import { Button, Card, Menu, Form } from "antd";
-import React, { useState, useEffect, useRef } from "react";
+import { Button, Card, Menu, Form, Typography } from "antd";
+import React, { useState, useEffect, useRef, createElement } from "react";
 import { LikeOutlined, CommentOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Modal } from "antd";
@@ -7,10 +7,10 @@ import { Modal } from "antd";
 import { Dropdown, message, Tooltip, Table } from "antd";
 import { AppstoreAddOutlined, UserOutlined } from "@ant-design/icons";
 import EditComment from "./EditComment";
-import { common } from "@material-ui/core/colors";
-import { Row, Col, Input } from 'antd';
+import { Row, Col, Input } from "antd";
 
 const { TextArea } = Input;
+const { Title } = Typography;
 
 const PostCard = ({ postInfo }) => {
   const [values, setValues] = useState({
@@ -29,13 +29,15 @@ const PostCard = ({ postInfo }) => {
 
   const [comment, setCommnet] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [userData, setUserData] = useState({});  
+  const [userData, setUserData] = useState({});
   const [image, setImage] = useState(false);
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("kdhfjf");
-  const [wrapComment, setwrapComment] = useState(false)
-  const [initialLike, setInitialLike] = useState(false)
+  const [wrapComment, setwrapComment] = useState(false);
+  const [initialLike, setInitialLike] = useState(false);
+  const [addLike, setAddLike] = useState(parseInt(postInfo.total_like))
+  const [newLike, setNewLike] = useState(postInfo.islike)
   const userId = localStorage.userId;
 
   const refContainer = useRef();
@@ -48,8 +50,10 @@ const PostCard = ({ postInfo }) => {
       });
     }
   }, []);
-  const [cls, setCls] = useState({ backgroundColor: postInfo?.islike === true ? 'blue' : 'transparent' });
-  console.log("cls",cls)
+  const [cls, setCls] = useState({
+    backgroundColor: postInfo?.islike === true ? "blue" : "transparent", color: postInfo?.islike === true ? "white" : "black"
+  });
+  // console.log("cls", cls);
 
   useEffect(() => {
     axios
@@ -65,7 +69,7 @@ const PostCard = ({ postInfo }) => {
         setDataSource(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, [cls]);
 
@@ -108,7 +112,7 @@ const PostCard = ({ postInfo }) => {
   };
 
   const postComment = (postInfo, id, content) => {
-    setwrapComment(!wrapComment)
+    setwrapComment(!wrapComment);
     const body = {
       post_id: id,
       content: values.content,
@@ -148,17 +152,16 @@ const PostCard = ({ postInfo }) => {
     console.log(postInfo);
     console.log(editValues);
   };
-console.log("postInfo", postInfo);
+  // console.log("postInfo", postInfo);
   const Like_Change = () => {
     console.log("color of bk", cls.backgroundColor);
-    // cls.BackgroundColor === "transparent" 
+    // cls.BackgroundColor === "transparent"
     //   ? setCls({ BackgroundColor: "blue" })
     //   : setCls({ BackgroundColor: "transparent" });
-    if(cls.backgroundColor === 'transparent'){
-      setCls({ BackgroundColor: "blue" })
-    }
-    else if(cls.backgroundColor === 'blue'){
-      setCls({ BackgroundColor: "transparent" })
+    if (cls.backgroundColor === "transparent") {
+      setCls({ backgroundColor: "blue" , color: "white"});
+    } else if (cls.backgroundColor === "blue") {
+      setCls({ backgroundColor: "transparent", color: "black"  });
     }
   };
 
@@ -255,7 +258,11 @@ console.log("postInfo", postInfo);
           Authorization: `Bearer ${localStorage.getItem("user-info")}`,
         },
       })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        setAddLike(addLike + 1)
+        setNewLike(false)
+      }
+      )
       .catch((e) => console.log(e));
   };
 
@@ -321,82 +328,83 @@ console.log("postInfo", postInfo);
   );
 
   return (
-    <Card
-      title={postInfo.first_name + " " + postInfo.last_name}
-      extra={
-        <Dropdown.Button
-          overlay={menu}
-          placement="bottom"
-          icon={<AppstoreAddOutlined />}
-          className="ant-card-head"
-        ></Dropdown.Button>
-      }
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        height: "100%",
-        backgroundColor: "#fafafa",
-        margin: "20px",
-      }}
-      ref={refContainer}
-    >
-      <Row>
-        <Col span={4}></Col>
-        <Col span={16}>
-          <div className="Data_Show" key={postInfo.id}>
-            <h4 className=""> {postInfo.content}</h4>
-            <h4>
-              <img className="image_picture" src={postInfo.picture} alt="" />
-            </h4>
-
-           
-          </div>
-        </Col>
-        <Col span={4}></Col>
-      </Row>
-      <hr style={{ marginBottom: "5px" }} />
-            {/* <div
+    <>
+      <Card
+        title={postInfo.first_name + " " + postInfo.last_name}
+        extra={
+          <Dropdown.Button
+            overlay={menu}
+            placement="bottom"
+            icon={<AppstoreAddOutlined />}
+            className="ant-card-head"
+          ></Dropdown.Button>
+        }
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "100%",
+          backgroundColor: "#fafafa",
+          margin: "20px",
+        }}
+        ref={refContainer}
+      >
+        <Row>
+          <Col span={4}></Col>
+          <Col span={16}>
+            <div className="Data_Show" key={postInfo.id}>
+              <h4 className=""> {postInfo.content}</h4>
+              <h4>
+                <img className="image_picture" src={postInfo.picture} alt="" />
+              </h4>
+            </div>
+          </Col>
+          <Col span={4}></Col>
+        </Row>
+        <hr style={{ marginBottom: "5px" }} />
+        {/* <div
               className="com"
               style={{
                 display: "flex",
                 justifyContent: "center",
               }}
             > */}
-            <Row>
-              <Col span={12}>
-              <Button
-                shape="round"
-                size="large"
-                style={cls}
-                // className={cls}
-                onClick={() => {
-                  Like_Change();
-                  Like_Count(postInfo.id);
-                }}
-                // {() => cls.color === 'green' ? setCls({color: 'red'}) : setCls({color: 'green'}) like() }
-              >
-                <LikeOutlined />
-                {postInfo.total_like} Like
-              </Button>
-              </Col>
-              {/* </div> */}
-              <Col span={12}>
-              <Button
-                type="primary"
-                shape="round"
-                icon={<CommentOutlined />}
-                size="large"
-                onClick={() =>
-                  postComment(postInfo, postInfo.id, postInfo.content)
-                }
-              >
-                {postInfo.total_comment}
-                Comment
-              </Button>
-              </Col>
-            </Row>
-
+        <Row>
+          <Col span={12}>
+            <Button
+              shape="round"
+              size="large"
+              style={cls}
+              // className={cls}
+              onClick={() => {
+                Like_Change();
+                Like_Count(postInfo.id);
+              }}
+              // {() => cls.color === 'green' ? setCls({color: 'red'}) : setCls({color: 'green'}) like() }
+            >
+              <LikeOutlined />
+              {parseInt(postInfo.total_like)} Like
+            </Button>
+          </Col>
+          {/* </div> */}
+          <Col span={12}>
+            <Button
+              type="primary"
+              shape="round"
+              icon={<CommentOutlined />}
+              size="large"
+              onClick={() =>
+                postComment(postInfo, postInfo.id, postInfo.content)
+              }
+            >
+              {postInfo.total_comment}
+              Comment
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={6}></Col>
+          <Col span={12}>
             {wrapComment && (
               <>
                 {" "}
@@ -404,8 +412,6 @@ console.log("postInfo", postInfo);
                   <div className="email">
                     <div className="name">
                       <label className="label">Comment</label>
-
-                    
 
                       <input
                         className="input"
@@ -419,7 +425,7 @@ console.log("postInfo", postInfo);
                 </form> */}
                 <Form.Item>
                   <TextArea
-                  style={{marginTop: "7px"}}
+                    style={{ marginTop: "7px" }}
                     rows={4}
                     type="text"
                     name="content"
@@ -440,16 +446,60 @@ console.log("postInfo", postInfo);
                   </Button>
                 </Form.Item>
                 <div>
-                  {/* {dataSource.length > 0 ? 
+                  {/* {dataSource.length > 0 ?
                 <EditComment editInfo={dataSource} />
-             : 
+             :
               <h1>Data not found</h1>
             } */}
                   <EditComment editInfo={dataSource} />
                 </div>{" "}
               </>
             )}
-    </Card>
+          </Col>
+          <Col span={6}></Col>
+        </Row>
+      </Card>
+    </>
+
+    // <Card
+    //   title={postInfo.first_name + " " + postInfo.last_name}
+    //   extra={
+    //     <Dropdown.Button
+    //       overlay={menu}
+    //       placement="bottom"
+    //       icon={<AppstoreAddOutlined />}
+    //       className="ant-card-head"
+    //     ></Dropdown.Button>
+    //   }
+    //   style={{
+    //     display: "flex",
+    //     flexDirection: "column",
+    //     alignItems: "center",
+    //     height: "100%",
+    //     backgroundColor: "#fafafa",
+    //     margin: "20px",
+    //   }}
+    // >
+    //   <Row justify="center">
+    //     <Col xs={24}>
+    //       <Title level={2}>{postInfo.content}</Title>
+    //     </Col>
+    //   </Row>
+    //   <Row justify="center">
+    //     <Col xs={12}>
+    //       <Form.Item>
+    //         <TextArea
+    //           style={{ marginTop: "7px" }}
+    //           rows={4}
+    //           type="text"
+    //           name="content"
+    //           onChange={handleChange}
+    //           value={values.content}
+    //         />
+    //       </Form.Item>
+    //     </Col>
+    //   </Row>
+    // </Card>
   );
 };
 

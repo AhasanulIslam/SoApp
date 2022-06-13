@@ -3,6 +3,8 @@ import axios from "axios";
 import { Button, Card, Menu } from "antd";
 import { Dropdown, message, Tooltip, Table } from "antd";
 import { AppstoreAddOutlined, UserOutlined } from "@ant-design/icons";
+import Moment from 'react-moment';
+
 
 
 const ImageUpload = () => {
@@ -103,7 +105,9 @@ const ImageUpload = () => {
              onClick={e => e.preventDefault()}>
             Open Dropdown
           </a>
-        </Dropdown>
+        </Dropdown><br />
+        <Moment toNow>1976-04-19T12:59-0500</Moment>
+
     </div>
   )
 }

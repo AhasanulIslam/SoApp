@@ -184,7 +184,7 @@ button:active {
   height: 90%;
   /* width: 90%; */
   padding-bottom: 10px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   padding: 10px;
   border: 5px solid #060505;
   /* background-color: #121211; */
@@ -258,4 +258,8 @@ button:active {
 
 .list_name{
   background: aquamarine;
+}
+
+.ant-card-body{
+  width: 100%
 }

@@ -8,6 +8,8 @@ import PostCard from "./Post/Card/PostCard";
 import { Cascader } from 'antd';
 import 'antd/dist/antd.css';
 import { Row, Col, Input } from 'antd';
+import { Upload } from 'antd';
+import ImgCrop from 'antd-img-crop';
 
 
 
@@ -32,6 +34,30 @@ const Home = () => {
   const [response, setResponse] = useState({})
   const [options, setOptions] = useState([]);
   const [taguser, setTagUser] = useState([])
+
+  const [fileList, setFileList] = useState([]);
+
+  // const onChange = ({ fileList: newFileList }) => {
+  //   setFileList(newFileList);
+  // };
+
+  const onPreview = async (file) => {
+    let src = file.url;
+
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
   
 
   useEffect(() => {
@@ -44,10 +70,8 @@ const Home = () => {
     setOptions(changedUsers)
   }, [viewuser])
 
-console.log("change users", viewuser);
 
   useEffect(() => {
-    console.log("view userlist api works");
     axios
       .get("https://soapp-nodejs.herokuapp.com/users/view-userlist", {
         headers: {
@@ -71,7 +95,6 @@ const fatchUserData = () => {
     },
   })
   .then((res) => {
-    console.log("view post", res.data.data);
     setUserData(res.data.data);
   })
   .catch((err) => {
@@ -87,7 +110,6 @@ const fatchUserData = () => {
 
 
   
-  console.log("image response",response);
   const { Option } = Select;
 
 
@@ -135,11 +157,13 @@ const fatchUserData = () => {
 
 
 
-  const handleFromSubmit = async e => {
-    console.log(e.target.files[0])
+  const actions = async e => {
+    console.log(e.target.value)
     // console.log(image)
+    console.log("sdsdfndddddddddddddddddddddddddd");
+  
     const data = new FormData()
-    data.append('file', e.target.files[0]) 
+    // data.append('file', e.target.file[0]) 
     // data.append("fileName", image.name)
 
     data.append('upload_preset','ahasan_images')
@@ -154,6 +178,7 @@ const fatchUserData = () => {
     .post("https://api.cloudinary.com/v1_1/v2-tech/image/upload", data)
     .then((res) => {
       setResponse(res.data)
+      console.log("response of home", res);
   
     })
     .catch((error) => {
@@ -161,6 +186,10 @@ const fatchUserData = () => {
 
     });
   }
+
+  const handleFromSubmit = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
 
   useEffect(() => {
       if(Object.keys(errors).length === 0 && dataIsCorrect){
@@ -211,7 +240,7 @@ const fatchUserData = () => {
     setTagUser(value)
   };
 
-
+  console.log("first Files 243",fileList)
   return (
     <div className="full_div" style={{ marginTop: 16 }}>
       <Navber />
@@ -244,8 +273,47 @@ const fatchUserData = () => {
               multiple
               maxTagCount="responsive"
             />
+
+<ImgCrop rotate style={{marginTop: "5px"
+              }}>
+      <Upload 
+        type="file"   
+        name="file"
+        // value={values1.imageUrl}
+        placeholder="Upload an image"
+        action={async(file) => {
+          console.log("file", file.name);
+
+          let data = new FormData();
+         data.append('file', file) 
+   data.append("fileName", file.name)
+
+    data.append('upload_preset','ahasan_images')
+          // data.append('file', file.name);
+          console.log("data", data);
+          setLoading(true)
+          axios.post('https://api.cloudinary.com/v1_1/v2-tech/image/upload', data, { headers: { 'Content-Type': `multipart/form-data;` } })
+              .then((response) => {
+                  console.log("gg",response);
+                  setResponse(response.data)
+                  setLoading(false)
+              })
+              .catch((err) => {
+                  // Notification("Error", "Could not upload photo", 'error')
+                  setLoading(false)
+              })
+      }}
+        listType="picture-card"
+        // setFileList={fileList}
+        fileList={fileList}
+        onChange={handleFromSubmit}
+        onPreview={onPreview}
+      >
+        {fileList.length < 5 && '+ Upload'}
+      </Upload>
+    </ImgCrop>
             
-            <input
+            {/* <input
                style={{marginTop: "5px"
               }}
               type="file"   
@@ -253,7 +321,7 @@ const fatchUserData = () => {
               value={values1.imageUrl}
               placeholder="Upload an image"
               onChange={handleFromSubmit}
-            />
+            /> */}
             {/* sdfsdf */}
           </Col>
           <Col span={6}></Col>
