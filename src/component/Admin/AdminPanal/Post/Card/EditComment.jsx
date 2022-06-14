@@ -224,9 +224,9 @@ console.log("edit info", editInfo );
         <Comment
       actions={actions}
       author={item.first_name + " " +item.last_name}
-      avatar={<Avatar src={item.profile_picture} alt="Han Solo" />}
+      avatar={<Avatar src={item.profile_picture} alt={item.first_name} />}
       content={
-        <p>
+        <p className="comment_list">
           {item.content}
         </p>
       }

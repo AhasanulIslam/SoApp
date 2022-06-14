@@ -137,6 +137,7 @@ const Profile = () => {
   }
 
   return (
+    <>
     <div className="full_div" style={{ marginTop: 16 }}>
       <Navber />
 
@@ -287,6 +288,8 @@ const Profile = () => {
         <h1>Data not found</h1>
       )}
     </div>
+
+    </>
   );
 }
 export default Profile;

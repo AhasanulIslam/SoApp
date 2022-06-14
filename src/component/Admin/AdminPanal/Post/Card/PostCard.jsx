@@ -71,7 +71,7 @@ const PostCard = ({ postInfo }) => {
       .catch((err) => {
         // console.log(err);
       });
-  }, [cls]);
+  }, [cls,]);
 
   const handleChange = (event) => {
     setValues({
@@ -261,6 +261,7 @@ const PostCard = ({ postInfo }) => {
       .then((res) => {
         setAddLike(addLike + 1)
         setNewLike(false)
+        console.log("like response", res);
       }
       )
       .catch((e) => console.log(e));
@@ -329,6 +330,8 @@ const PostCard = ({ postInfo }) => {
 
   return (
     <>
+ 
+      <Col span={8}>
       <Card
         title={postInfo.first_name + " " + postInfo.last_name}
         extra={
@@ -349,7 +352,7 @@ const PostCard = ({ postInfo }) => {
         }}
         ref={refContainer}
       >
-        <Row>
+        <Row className="card_comment">
           <Col span={4}></Col>
           <Col span={16}>
             <div className="Data_Show" key={postInfo.id}>
@@ -362,13 +365,7 @@ const PostCard = ({ postInfo }) => {
           <Col span={4}></Col>
         </Row>
         <hr style={{ marginBottom: "5px" }} />
-        {/* <div
-              className="com"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            > */}
+        
         <Row>
           <Col span={12}>
             <Button
@@ -407,22 +404,7 @@ const PostCard = ({ postInfo }) => {
           <Col span={12}>
             {wrapComment && (
               <>
-                {" "}
-                {/* <form className="from-wrapper">
-                  <div className="email">
-                    <div className="name">
-                      <label className="label">Comment</label>
-
-                      <input
-                        className="input"
-                        type="text"
-                        name="content"
-                        value={values.content}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </form> */}
+              
                 <Form.Item>
                   <TextArea
                     style={{ marginTop: "7px" }}
@@ -459,47 +441,10 @@ const PostCard = ({ postInfo }) => {
           <Col span={6}></Col>
         </Row>
       </Card>
+      </Col>
+ 
+    
     </>
-
-    // <Card
-    //   title={postInfo.first_name + " " + postInfo.last_name}
-    //   extra={
-    //     <Dropdown.Button
-    //       overlay={menu}
-    //       placement="bottom"
-    //       icon={<AppstoreAddOutlined />}
-    //       className="ant-card-head"
-    //     ></Dropdown.Button>
-    //   }
-    //   style={{
-    //     display: "flex",
-    //     flexDirection: "column",
-    //     alignItems: "center",
-    //     height: "100%",
-    //     backgroundColor: "#fafafa",
-    //     margin: "20px",
-    //   }}
-    // >
-    //   <Row justify="center">
-    //     <Col xs={24}>
-    //       <Title level={2}>{postInfo.content}</Title>
-    //     </Col>
-    //   </Row>
-    //   <Row justify="center">
-    //     <Col xs={12}>
-    //       <Form.Item>
-    //         <TextArea
-    //           style={{ marginTop: "7px" }}
-    //           rows={4}
-    //           type="text"
-    //           name="content"
-    //           onChange={handleChange}
-    //           value={values.content}
-    //         />
-    //       </Form.Item>
-    //     </Col>
-    //   </Row>
-    // </Card>
   );
 };
 

@@ -259,7 +259,33 @@ button:active {
 .list_name{
   background: aquamarine;
 }
+.ant-col{
+  margin-bottom: 15px;
+}
 
 .ant-card-body{
   width: 100%
+}
+.ant-upload-list{
+  margin-top: 10px;
+}
+.post_card{
+  background-image: linear-gradient(#a6c2dd, #556f87);
+}
+ant-card-head{
+  background-image: linear-gradient(#f0f2f0, #000c40);
+}
+.comment_list{
+  display: flex;
+  justify-content: left;
+}
+/* .card_comment{
+  background-image: linear-gradient(#f0f2f0, #000c40);
+
+} */
+.ant-card{
+  background-image: linear-gradient(#f0f2f0, #4389A2);
+}
+.ant-card-head{
+  background: #859398;
 }
