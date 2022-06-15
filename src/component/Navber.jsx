@@ -7,7 +7,7 @@ import {
   UsergroupAddOutlined,
   UserDeleteOutlined,
 } from "@ant-design/icons";
-import { Tooltip } from "antd";
+import { Col, Row, Tooltip } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Image } from "antd";
 
@@ -39,7 +39,9 @@ const Navber = () => {
   };
 
   return (
-    <>
+    <Row>
+      <Col xs={24} sm={24} lg={24}>
+
       <nav className="navbar">
         <div className="nav-container">
           <ul className={click ? "nav-menu active" : "nav-menu"}>
@@ -159,7 +161,8 @@ const Navber = () => {
           </div>
         </div>
       </nav>
-    </>
+      </Col>
+    </Row>
   );
 };
 

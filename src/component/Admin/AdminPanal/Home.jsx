@@ -134,6 +134,7 @@ const Home = () => {
         setTagUser([]);
         setValues1("");
         fatchUserData();
+        setFileList([])
       })
       .catch((e) => console.log(e));
   };
@@ -326,12 +327,14 @@ const Home = () => {
         </Card>
       </form>
       <div className="site-card-wrapper">
-        <Row gutter={16}>
+        <Row gutter={[16, 16]}>
           {userData && userData.length > 0 ? (
             userData.map((el, index) => (
               // <h1>{el.quiz_name}</h1>
               <>
-                <PostCard postInfo={el} key={index} />
+              <Col xs={24} sm={12} lg={8} key={index}>
+                <PostCard postInfo={el} />
+              </Col>
                 <br />
               </>
             ))

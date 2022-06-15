@@ -71,7 +71,7 @@ const PostCard = ({ postInfo }) => {
       .catch((err) => {
         // console.log(err);
       });
-  }, [cls,]);
+  }, []);
 
   const handleChange = (event) => {
     setValues({
@@ -270,9 +270,12 @@ const PostCard = ({ postInfo }) => {
   const menu = (
     <Menu>
       <Menu.Item key="0">
+      {userId == postInfo.user_id && (
+
         <Button type="primary" onClick={showModal}>
-          Update Comment
+          Update Post
         </Button>
+      )}
         <Modal
           title="Title"
           visible={visible}
@@ -285,7 +288,9 @@ const PostCard = ({ postInfo }) => {
               <form className="from-wrapper">
                 <div className="email">
                   <div className="name">
-                    <label className="label">Comment</label>
+
+                    <label className="label">Update Post</label>
+
                     <input
                       className="input"
                       type="text"
@@ -304,15 +309,16 @@ const PostCard = ({ postInfo }) => {
                     Editpost(postInfo, postInfo.id, postInfo.content)
                   }
                 >
-                  Edit Comment
+                  Edit Post
                 </Button>
               </form>
             }
           </p>
         </Modal>
+          
       </Menu.Item>
-      <Menu.Item key="1">
-        {userId == postInfo.user_id && (
+      <Menu.Item key="">
+        {userId == postInfo.user_id ? (
           <Tooltip placement="topLeft" title="Follow this user">
             <Button
               type="primary"
@@ -322,16 +328,16 @@ const PostCard = ({ postInfo }) => {
               Delete
             </Button>
           </Tooltip>
-        )}
+        ): <p>It's not your post</p>}
       </Menu.Item>
-      <Menu.Item key="1">Menu Item Three</Menu.Item>
+      <Menu.Item key="3">xcvxc</Menu.Item>
     </Menu>
   );
 
   return (
     <>
  
-      <Col span={8}>
+    
       <Card
         title={postInfo.first_name + " " + postInfo.last_name}
         extra={
@@ -441,7 +447,7 @@ const PostCard = ({ postInfo }) => {
           <Col span={6}></Col>
         </Row>
       </Card>
-      </Col>
+     
  
     
     </>

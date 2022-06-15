@@ -121,7 +121,8 @@
   color: red;
 }
 .Data_Show{
-  font-family: 'Hanalei Fill', cursive;
+  font-family: 'Courier New',
+  monospace;
 }
 
 .post_size{
