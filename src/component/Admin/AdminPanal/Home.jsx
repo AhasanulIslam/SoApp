@@ -332,7 +332,7 @@ const Home = () => {
             userData.map((el, index) => (
               // <h1>{el.quiz_name}</h1>
               <>
-              <Col xs={24} sm={12} lg={8} key={index}>
+              <Col xs={24} sm={12} md={12} lg={8} key={index}>
                 <PostCard postInfo={el} />
               </Col>
                 <br />

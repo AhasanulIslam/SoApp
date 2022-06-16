@@ -36,9 +36,13 @@ const PostCard = ({ postInfo }) => {
   const [modalText, setModalText] = useState("kdhfjf");
   const [wrapComment, setwrapComment] = useState(false);
   const [initialLike, setInitialLike] = useState(false);
-  const [addLike, setAddLike] = useState(parseInt(postInfo.total_like))
+  const [addLike, setAddLike] = useState(0)
   const [newLike, setNewLike] = useState(postInfo.islike)
   const userId = localStorage.userId;
+
+  useEffect(() => {
+    setAddLike(parseInt(postInfo.total_like))
+  }, [postInfo])
 
   const refContainer = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -51,7 +55,7 @@ const PostCard = ({ postInfo }) => {
     }
   }, []);
   const [cls, setCls] = useState({
-    backgroundColor: postInfo?.islike === true ? "blue" : "transparent", color: postInfo?.islike === true ? "white" : "black"
+    backgroundColor: postInfo?.islike === true ? "blue" : "white", color: postInfo?.islike === true ? "white" : "black"
   });
   // console.log("cls", cls);
 
@@ -158,10 +162,10 @@ const PostCard = ({ postInfo }) => {
     // cls.BackgroundColor === "transparent"
     //   ? setCls({ BackgroundColor: "blue" })
     //   : setCls({ BackgroundColor: "transparent" });
-    if (cls.backgroundColor === "transparent") {
+    if (cls.backgroundColor === "white") {
       setCls({ backgroundColor: "blue" , color: "white"});
     } else if (cls.backgroundColor === "blue") {
-      setCls({ backgroundColor: "transparent", color: "black"  });
+      setCls({ backgroundColor: "white", color: "black"  });
     }
   };
 
@@ -359,8 +363,8 @@ const PostCard = ({ postInfo }) => {
         ref={refContainer}
       >
         <Row className="card_comment">
-          <Col span={4}></Col>
-          <Col span={16}>
+          
+          <Col span={24}>
             <div className="Data_Show" key={postInfo.id}>
               <h4 className=""> {postInfo.content}</h4>
               <h4>
@@ -368,14 +372,13 @@ const PostCard = ({ postInfo }) => {
               </h4>
             </div>
           </Col>
-          <Col span={4}></Col>
+          
         </Row>
         <hr style={{ marginBottom: "5px" }} />
         
-        <Row>
+        <Row style={{flexFlow: "row", justifyContent: "center"}}>
           <Col span={12}>
-            <Button
-              shape="round"
+          <Button type="primary" block
               size="large"
               style={cls}
               // className={cls}
@@ -386,14 +389,15 @@ const PostCard = ({ postInfo }) => {
               // {() => cls.color === 'green' ? setCls({color: 'red'}) : setCls({color: 'green'}) like() }
             >
               <LikeOutlined />
-              {parseInt(postInfo.total_like)} Like
+              {addLike} Like
             </Button>
           </Col>
           {/* </div> */}
           <Col span={12}>
-            <Button
-              type="primary"
-              shape="round"
+            <Button type="primary" block
+    
+              
+              
               icon={<CommentOutlined />}
               size="large"
               onClick={() =>

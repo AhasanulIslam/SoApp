@@ -1,19 +1,34 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom"; // import { Nav, Navbar, NavDropdown, Container } from 'react-bootstrap'
+
 import "./NavBar.css";
+import DensitySmallIcon from '@mui/icons-material/DensitySmall';
+
 import {
   HomeTwoTone,
   UsergroupAddOutlined,
   UserDeleteOutlined,
+  MenuFoldOutlined
 } from "@ant-design/icons";
 import { Col, Row, Tooltip } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Image } from "antd";
+import { Avatar, Image, Anchor, Drawer, Button } from "antd";
 
+const { Link } = Anchor;
 const Navber = () => {
   const [click, setClick] = useState(false);
   const [userData, setUserData] = useState({});
+
+  const [visible, setVisible] = useState(false);
+
+  const showDrawer = () => {
+    setVisible(true);
+  };
+
+  const onClose = () => {
+    setVisible(false);
+  };
 
   useEffect(() => {
     console.log("lsdkflsdk");
@@ -39,15 +54,19 @@ const Navber = () => {
   };
 
   return (
-    <Row>
-      <Col xs={24} sm={24} lg={24}>
-
-      <nav className="navbar">
-        <div className="nav-container">
-          <ul className={click ? "nav-menu active" : "nav-menu"}>
-            {/* {localStorage.getItem('role') === '2'} */}
-            <li className="nav-item">
-              <NavLink
+    
+<>
+      {/*  */}
+      
+      <div className="container-fluid">
+      <div className="header">
+        <div className="logo">
+          <i className="fas fa-bolt"></i>
+          <a><b>SoApp</b></a>
+        </div>
+        <div className="mobileHidden">
+          <Anchor targetOffset="65">
+          <NavLink
                 to="/home"
                 activeClassName="active"
                 className="nav-links"
@@ -63,9 +82,6 @@ const Navber = () => {
               >
                 Users
               </NavLink>
-            </li>
-            <li className="nav-item"></li>
-            <li className="nav-item">
               <NavLink
                 to="/unfollow"
                 activeClassName="active"
@@ -76,8 +92,6 @@ const Navber = () => {
                   Followers
                 </Tooltip>
               </NavLink>
-            </li>
-            {/* <li className="nav-item">
               <NavLink
                 to="/profile"
                 activeClassName="active"
@@ -86,9 +100,6 @@ const Navber = () => {
               >
                 Profie
               </NavLink>
-            </li> */}
-
-            <li className="nav-item">
               <NavLink
                 to="/createpost"
                 activeClassName="active"
@@ -97,9 +108,6 @@ const Navber = () => {
               >
                 Create Post
               </NavLink>
-            </li>
-
-            <li className="nav-item">
               <NavLink
                 to="/"
                 activeClassName="active"
@@ -108,8 +116,6 @@ const Navber = () => {
               >
                 Logout
               </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink
                 to="/profile"
                 activeClassName="active"
@@ -136,10 +142,8 @@ const Navber = () => {
   )
                   : console.log("sdfsd")}
                             </NavLink>
-            </li>
 
-            <li className="nav-item">
-              <NavLink
+                            <NavLink
                 to="/profile"
                 activeClassName="active"
                 className="nav-links"
@@ -154,15 +158,117 @@ const Navber = () => {
   )
                   : console.log("sdfsd")}
                             </NavLink>
-            </li>
-          </ul>
-          <div className="nav-icon" onClick={handleClick}>
-            <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
-          </div>
+          </Anchor>
         </div>
-      </nav>
-      </Col>
-    </Row>
+        <div className="mobileVisible">
+          <Button type="primary" onClick={showDrawer}>
+            <i className="fas fa-bars"><DensitySmallIcon /></i>
+          </Button>
+          <Drawer
+            placement="right"
+            closable={false}
+            onClose={onClose}
+            visible={visible}
+          >
+            <Anchor targetOffset="65">
+            <NavLink
+                to="/home"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/follow"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Users
+              </NavLink>
+              <NavLink
+                to="/unfollow"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                <Tooltip placement="topLeft" title="Unfollow users">
+                  Followers
+                </Tooltip>
+              </NavLink>
+              <NavLink
+                to="/profile"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Profie
+              </NavLink>
+              <NavLink
+                to="/createpost"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Create Post
+              </NavLink>
+              <NavLink
+                to="/"
+                activeClassName="active"
+                className="nav-links"
+                onClick={logout}
+              >
+                Logout
+              </NavLink>
+              <NavLink
+                to="/profile"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                {userData.length > 0
+                  ? userData.map((el) => 
+                  
+                  <Avatar
+                  src={
+                    <Image
+                      src={el.profile_picture}
+                      style={{
+                        width: 45,
+                      }}
+                      alt={userData.first_name}
+                    />
+                    
+                  }
+                />
+                
+                
+  )
+                  : console.log("sdfsd")}
+                            </NavLink>
+
+                            <NavLink
+                to="/profile"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                {userData.length > 0
+                  ? userData.map((el) => 
+                  
+                  <>{el.first_name + " " + el.last_name}</>
+                
+                
+  )
+                  : console.log("sdfsd")}
+                            </NavLink>
+            </Anchor>
+          </Drawer>
+        </div>
+      </div>
+    </div>
+    </>
   );
 };
 
