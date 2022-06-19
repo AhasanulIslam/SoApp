@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef, createElement } from "react";
 import { LikeOutlined, CommentOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Modal } from "antd";
+import Masonry from 'react-masonry-css'
+
 
 import { Dropdown, message, Tooltip, Table } from "antd";
 import { AppstoreAddOutlined, UserOutlined } from "@ant-design/icons";
@@ -37,9 +39,14 @@ const PostCard = ({ postInfo }) => {
   const [wrapComment, setwrapComment] = useState(false);
   const [initialLike, setInitialLike] = useState(false);
   const [addLike, setAddLike] = useState(0)
-  const [newLike, setNewLike] = useState(postInfo.islike)
+  const [newLike, setNewLike] = useState(false)
   const userId = localStorage.userId;
 
+
+  useEffect(() => {
+    setNewLike(postInfo.islike)
+  }, [postInfo])
+  
   useEffect(() => {
     setAddLike(parseInt(postInfo.total_like))
   }, [postInfo])
@@ -263,9 +270,11 @@ const PostCard = ({ postInfo }) => {
         },
       })
       .then((res) => {
-        setAddLike(addLike + 1)
-        setNewLike(false)
+        newLike == false ? setAddLike(addLike + 1) : setAddLike(addLike - 1)
+        setNewLike(!newLike)
         console.log("like response", res);
+        console.log("res of addlike", newLike);
+
       }
       )
       .catch((e) => console.log(e));

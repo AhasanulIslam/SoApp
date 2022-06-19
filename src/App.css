@@ -186,12 +186,12 @@ button:active {
 .image_profile{
   padding-left: 20px;
   text-align: left;
-  height: 90%;
-  /* width: 90%; */
+  height: 50%;
+  width: 50%;
   padding-bottom: 10px;
-  /* border-radius: 50%; */
+  border-radius: 50%;
   padding: 10px;
-  border: 5px solid #060505;
+  border: 5px solid #d4cbcb;
   /* background-color: #121211; */
   /* box-shadow: 0 0 30px 30px #ffa500; */
 }
@@ -277,7 +277,7 @@ button:active {
 
 }
 .ant-col{
-  height: 0%;
+
 }
 
 .ant-card-body{

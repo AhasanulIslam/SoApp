@@ -8,6 +8,9 @@ import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
 import WcIcon from '@mui/icons-material/Wc';
 import CakeIcon from '@mui/icons-material/Cake';
+import { Upload } from "antd";
+import ImgCrop from "antd-img-crop";
+import VerifiedIcon from '@mui/icons-material/Verified';
 import {
   EditOutlined
 } from "@ant-design/icons";
@@ -22,7 +25,10 @@ const Profile = () => {
   const [newuserData2, setNewUserData2] = useState([])
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false)
+  const [response, setResponse] = useState({});
   const [image, setImage] = useState("")
+  const [fileList, setFileList] = useState([]);
+
   useEffect(() => {
     console.log("lsdkflsdk");
     axios
@@ -98,7 +104,53 @@ const Profile = () => {
       });
 
   }, []);
+
+    const onPreview = async (file) => {
+    let src = file.url;
+
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+
+        reader.onload = () => resolve(reader.result);
+      });
+    }
   
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
+
+
+  const handleFromSubmit = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const postHandleFromSubmit = (event) => {
+    event.preventDefault();
+    console.log("response", response);
+    axios
+      .patch(
+        `https://soapp-nodejs.herokuapp.com/users/add-profile-picture`,
+        {
+          
+          imageUrl: response.url
+          
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("user-info")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setFileList([])
+      })
+      .catch((e) => console.log(e));
+  };
+
 
   const uploadImage = async e =>{
     console.log(e.target.files[0])
@@ -116,7 +168,7 @@ const Profile = () => {
     .then((res) => {
       axios.patch(`https://soapp-nodejs.herokuapp.com/users/add-profile-picture`,
         {
-          imageUrl: res.data.url
+          imageUrl: res.data.data.url
         },
         {
          headers: {
@@ -160,20 +212,70 @@ const Profile = () => {
               </Col>
             </Row>
             <Row className="Data_Show" key={el.id}>
-              <Col span={8}>
+              <Col span={6}>
                 <img
                   className="image_profile"
                   src={el.profile_picture}
                   alt=""
                 />
-                <div className="App_profile">
+                <br />
+                {/* <div className="App_profile">
                   <input
                     type="file"
                     name="file"
                     placeholder="Upload an image"
                     onChange={(e) => uploadImage(e)}
                   />
-                </div>
+                </div> */}
+                <br></br>
+                <br></br>
+                <h1><b>{el.first_name + " " + el.last_name} <VerifiedIcon color="primary"/></b></h1>
+
+<ImgCrop rotate >
+              <Upload
+                type="file"
+                name="file"
+                // value={values1.imageUrl}
+                placeholder="Upload an image"
+                action={async (file) => {
+                  console.log("file", file.name);
+
+                  let data = new FormData();
+                  data.append("file", file);
+                  data.append("fileName", file.name);
+
+                  data.append("upload_preset", "ahasan_images");
+                  // data.append('file', file.name);
+                  console.log("data", data);
+                  setLoading(true);
+                  axios
+                    .post(
+                      "https://api.cloudinary.com/v1_1/v2-tech/image/upload",
+                      data,
+                      { headers: { "Content-Type": `multipart/form-data;` } }
+                    )
+                    .then((response) => {
+                      console.log("gg", response.data);
+                      setResponse(response.data);
+                      setLoading(false);
+                    })
+                    .catch((err) => {
+                      // Notification("Error", "Could not upload photo", 'error')
+                      setLoading(false);
+                    });
+                }}
+                listType="picture-card"
+                // setFileList={fileList}
+                fileList={fileList}
+                onChange={handleFromSubmit}
+                onPreview={onPreview}
+              >
+                {fileList.length < 5 && "+ Select Image"}
+              </Upload>
+            </ImgCrop>
+            <button className="submit" onClick={postHandleFromSubmit}>
+              Update Image
+            </button>
               </Col>
               
               <Col span={2}>   </Col>
@@ -197,7 +299,7 @@ const Profile = () => {
             <br />
 
             <Row>
-              <Col span={8}>
+              {/* <Col span={8}>
                 <h1>
                   Post
                   {newuserData2.length > 0 ? (
@@ -232,10 +334,10 @@ const Profile = () => {
                     <h1>Data not found</h1>
                   )}{" "}
                 </h1>
-              </Col>
+              </Col> */}
 
               <Col span={8}>
-                <h1>
+                {/* <h1>
                   Followers
                   {newuserData.length > 0 ? (
                     newuserData.map((el) => (
@@ -248,7 +350,7 @@ const Profile = () => {
                   ) : (
                     <h1>Data not found</h1>
                   )}
-                </h1>
+                </h1> */}
               </Col>
             </Row>
 
