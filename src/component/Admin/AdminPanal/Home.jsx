@@ -12,6 +12,7 @@ import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 
 import { Select } from "antd";
+import Profile from "./Profile/Profile";
 
 const { Panel } = Collapse;
 const { TextArea } = Input;
@@ -342,6 +343,20 @@ const Home = () => {
             <h1>Data not found</h1>
           )}
         </Row>
+
+        
+          {userData && userData.length > 0 ? (
+            userData.map((el, index) => (
+              // <h1>{el.quiz_name}</h1>
+              <>
+              <Profile profile={el} key={index}/>
+                <br />
+              </>
+            ))
+          ) : (
+            <h1>Data not found</h1>
+          )}
+        
       </div>
     </div>
   );

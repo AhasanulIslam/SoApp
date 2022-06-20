@@ -186,12 +186,12 @@ button:active {
 .image_profile{
   padding-left: 20px;
   text-align: left;
-  height: 50%;
-  width: 50%;
+  height: 56%;
+  width: 44%;
   padding-bottom: 10px;
   border-radius: 50%;
   padding: 10px;
-  border: 5px solid #d4cbcb;
+  /* border: 5px solid #d4cbcb; */
   /* background-color: #121211; */
   /* box-shadow: 0 0 30px 30px #ffa500; */
 }
