@@ -1,12 +1,11 @@
 import { Button, Card, Menu, Form, Typography } from "antd";
-import React, { useState, useEffect, useRef, createElement } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { LikeOutlined, CommentOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { Modal } from "antd";
 import Masonry from 'react-masonry-css'
 
 
-import { Dropdown, message, Tooltip, Table } from "antd";
+import { Dropdown, message, Tooltip, Modal } from "antd";
 import { AppstoreAddOutlined, UserOutlined } from "@ant-design/icons";
 import EditComment from "./EditComment";
 import { Row, Col, Input } from "antd";

@@ -2,22 +2,18 @@ import axios from "axios";
 import { Collapse } from "antd";
 import React, { useEffect, useState } from "react";
 import Navber from "../../../Navber";
-import { Row, Col } from "antd";
-import { Button, Card, Menu } from "antd";
-import EmailIcon from "@mui/icons-material/Email";
-import BadgeIcon from "@mui/icons-material/Badge";
-import WcIcon from "@mui/icons-material/Wc";
-import CakeIcon from "@mui/icons-material/Cake";
+import { Row, Col, Card } from "antd";
+import { Button } from "antd";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import { EditOutlined } from "@ant-design/icons";
-import Home from "../Home";
 
 const { Panel } = Collapse;
 
-const Profile = ({profile}) => {
+const Profile = () => {
   const [userData, setUserData] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [profile, setProfile] = useState({})
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState({});
    const [fileList, setFileList] = useState([]);
@@ -26,8 +22,6 @@ const Profile = ({profile}) => {
 
   useEffect(() => {
     console.log("lsdkflsdk");
-    console.log("post info from profile", profile);
-
     axios
       .get("https://soapp-nodejs.herokuapp.com/users/view-profile", {
         headers: {
@@ -38,14 +32,33 @@ const Profile = ({profile}) => {
         console.log(res);
         setUserData(res.data.data);
         console.log("post info from profile", profile);
-
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
- 
+
+  
+  useEffect(() => {
+    console.log("post info from profile");
+
+    axios
+      .get("https://soapp-nodejs.herokuapp.com/post/view-post", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("user-info")}`,
+        },
+      })
+      .then((res) => {
+        console.log("view post",res);
+        setProfile(res.data.data);
+        console.log("post info from profile", profile);
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const onPreview = async (file) => {
     let src = file.url;
@@ -90,40 +103,7 @@ const Profile = ({profile}) => {
       .catch((e) => console.log(e));
   };
 
-  const uploadImage = async (e) => {
-    console.log(e.target.files[0]);
-    // console.log(image)
-    const data = new FormData();
-    data.append("file", e.target.files[0]);
-    // data.append("fileName", image.name)
-
-    data.append("upload_preset", "ahasan_images");
-    setLoading(true);
-
-    return await axios
-      .post("https://api.cloudinary.com/v1_1/v2-tech/image/upload", data)
-      .then((res) => {
-        axios
-          .patch(
-            `https://soapp-nodejs.herokuapp.com/users/add-profile-picture`,
-            {
-              imageUrl: res.data.data.url,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("user-info")}`,
-              },
-            }
-          )
-          .then((res) => console.log("gg100", res.data))
-          .catch((e) => console.log("gg200", e));
-
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  
 
   return (
     <>
@@ -256,21 +236,33 @@ const Profile = ({profile}) => {
 
               <br />
               <br />
-
-              <Row>
-               
-
-                <Col span={8}>
-                 
-                </Col>
-              </Row>
-
             </>
           ))
         ) : (
           <h1>Data not found</h1>
         )}
       </div>
+      <div>
+      <Col className="gutter-row" span={8}>
+      {profile.length > 0 ? (
+          profile.map((el) => (
+
+            
+            <Card >
+              <Row gutter={16}>
+            {el.profile_picture != null  ? (<h4>
+              <img className="image_picture" src={el.picture} alt={el.first_name} />
+              </h4>) : (console.log("dsds"))}
+              
+            </Row>
+            </Card>
+            
+            
+            ))) 
+            : (console.log("hjdbf"))}
+           </Col>
+      </div>
+
     </>
   );
 };
@@ -278,137 +270,3 @@ export default Profile;
 
 
 
-
-
- // useEffect(() => {
-  //   axios
-  //     .get("https://soapp-nodejs.herokuapp.com/users/view-followers", {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("user-info")}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data.data);
-  //       setNewUserData(res.data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get("https://soapp-nodejs.herokuapp.com/users/view-following_users", {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("user-info")}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data.data);
-  //       setNewUserData1(res.data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get("https://soapp-nodejs.herokuapp.com/post/total-post", {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("user-info")}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data.data);
-  //       setNewUserData2(res.data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-
-  
-              {/* {newuserData.length > 0 ? (
-            newuserData.map(el => (
-                <div style={{background: 'grey', marginBottom: '1em'}}>
-                    <h4>{el.followers }</h4>
-                </div>
-            ))
-        ) : <h1>Data not found</h1>} */}
-
-              {/* <div className="container emp-profile"> */}
-              {/* <from method="">
-            <div className="row">
-              <div className="col-md-3">
-                <img src={el.picture} alt={el.first_name} />
-              </div>
-              <div className="col-md-7">
-                <div className="profile-head">
-                  <h5>Name</h5>
-                  <h5> {el.first_name + " " + el.last_name}</h5>
-                  <br/>
-                  <h5>Email </h5>
-                  <h5>{el.email}</h5>
-                  <h5>Gender : {el.gender}</h5>
-                  <h5>Birth Date : {el.date_of_birth}</h5>
-                </div>
-              </div>
-            </div>
-
-          </from> */}
-
-              {/* </div> */}
-
-               {/* <Col span={8}>
-                <h1>
-                  Post
-                  {newuserData2.length > 0 ? (
-                    newuserData2.map((el) => (
-                      <h1
-                        style={{ background: "#D3D3D3", marginBottom: "2em" }}
-                      >
-                        <h1>{el.total_post}</h1>
-                      </h1>
-                    ))
-                  ) : (
-                    <h1>Data not found</h1>
-                  )}{" "}
-                </h1>
-              </Col>
-              <Col span={8}>
-                <h1>
-                  Following
-                  {newuserData1.length > 0 ? (
-                    newuserData1.map((el) => (
-                      <h1
-                        style={{
-                          background: "#D3D3D3",
-                          marginBottom: "2em",
-                          font: "30px",
-                        }}
-                      >
-                        <h1>{el.following_users}</h1>
-                      </h1>
-                    ))
-                  ) : (
-                    <h1>Data not found</h1>
-                  )}{" "}
-                </h1>
-              </Col> */}
-
-               {/* <h1>
-                  Followers
-                  {newuserData.length > 0 ? (
-                    newuserData.map((el) => (
-                      <h1
-                        style={{ background: "#D3D3D3", marginBottom: "2em" }}
-                      >
-                        <h1>{el.followers}</h1>
-                      </h1>
-                    ))
-                  ) : (
-                    <h1>Data not found</h1>
-                  )}
-                </h1> */}
