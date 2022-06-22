@@ -246,17 +246,20 @@ const Profile = () => {
       <Col className="gutter-row" span={8}>
       {profile.length > 0 ? (
           profile.map((el) => (
-
+            <>{console.log(el.picture)}
             
-            <Card >
-              <Row gutter={16}>
-            {el.profile_picture != null  ? (<h4>
+            <Card glutter={16}>
+              <Row>
+             {
+              el.picture && (<img className="image_picture" src={el.picture} alt={el.first_name} />) 
+             }
+            
+              {/* <h4>
               <img className="image_picture" src={el.picture} alt={el.first_name} />
-              </h4>) : (console.log("dsds"))}
-              
+              </h4> */}
             </Row>
             </Card>
-            
+            </>
             
             ))) 
             : (console.log("hjdbf"))}
