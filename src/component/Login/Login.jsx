@@ -47,15 +47,16 @@ export default function Login() {
   return (
     <div className="login__container">
       <div className="login__welcome">
-        <p>Social Media App</p>
+        {/* <p>Social Media App</p> */}
       </div>
-
+      
       <div className="login__form-container">
         <div className="login__form">
           <Form onSubmit={handleSubmit}>
+          <div className="heading"></div>
           <div>
               <Form.Group controlId="email">
-                <Form.Label> Email </Form.Label>
+                {/* <Form.Label> Email </Form.Label> */}
                 <Form.Control
                   className="input"
                   autoFocus
@@ -68,7 +69,7 @@ export default function Login() {
 
             <div>
               <Form.Group controlId="password">
-                <Form.Label> Password </Form.Label>
+                {/* <Form.Label> Password </Form.Label> */}
                 <Form.Control
                   className="input"
                   type="password"

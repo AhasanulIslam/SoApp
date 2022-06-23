@@ -15,6 +15,8 @@ const Follow = () => {
   const [dataSource, setDataSource] = useState([]);
   const [ storedData, setStoreddata  ] = useState([])
   const [following_user, setFollowing_user] = useState({});
+  const [userData, setUserData] = useState({});
+
   
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const Follow = () => {
         },
       })
       .then((res) => {
-        console.log("HELLO", res);
+        // console.log("HELLO", res);
         
         const finalData = res.data.data.map(item => ({
           ...item,
@@ -66,6 +68,25 @@ const Follow = () => {
     }
   };
 
+  const viewprofile = async (id) => {
+    console.log("profile id", id);
+
+    axios
+    .get(`https://soapp-nodejs.herokuapp.com/users/view-single-profile/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("user-info")}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      setUserData(res.data.data);
+      
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+
   
   
 
@@ -89,7 +110,7 @@ const Follow = () => {
         return (
           
           <>
-          {console.log("cxvbdfv",info)}
+          {/* {console.log("cxvbdfv",info)} */}
             <Tooltip placement="topLeft" title="Follow this user">
               <Button
                 onClick={() => follow(info.id)}
@@ -104,6 +125,28 @@ const Follow = () => {
         );
       },
     },
+    {
+      key: "5",
+      title: "Actions",
+      render: (info) => {
+        return (
+          
+          <>
+          {/* {console.log("cxvbdfv",info)} */}
+            <Tooltip placement="topLeft" title="Follow this user">
+              <Button
+                onClick={() => viewprofile(info.id)}
+                type="primary"
+                shape="round"
+              >
+                View Profile
+              </Button>
+            </Tooltip>
+
+          </>
+        );
+      },
+    }
   ];
 
   const handleSearch = (event) =>{

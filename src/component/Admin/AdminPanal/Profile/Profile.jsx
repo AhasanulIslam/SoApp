@@ -243,27 +243,31 @@ const Profile = () => {
         )}
       </div>
       <div>
-      <Col className="gutter-row" span={8}>
+        <h1>Upload Pictures</h1>
+      <Row>
       {profile.length > 0 ? (
-          profile.map((el) => (
+        profile
+          .filter((el) => el.picture !== null )
+          .map((el) => (
             <>{console.log(el.picture)}
             
-            <Card glutter={16}>
-              <Row>
-             {
-              el.picture && (<img className="image_picture" src={el.picture} alt={el.first_name} />) 
-             }
-            
-              {/* <h4>
-              <img className="image_picture" src={el.picture} alt={el.first_name} />
-              </h4> */}
-            </Row>
+            <Col className="gutter-row" span={6}>
+            <Card
+              hoverable
+              style={{
+                width: 300,
+                height: 300
+              }}
+              cover={<img alt="example" src={el.picture} />}
+            >
+              {/* <Meta title="Europe Street beat" description="www.instagram.com" /> */}
             </Card>
+           </Col>
             </>
             
             ))) 
             : (console.log("hjdbf"))}
-           </Col>
+           </Row>
       </div>
 
     </>

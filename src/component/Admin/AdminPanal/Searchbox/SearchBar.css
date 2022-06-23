@@ -1,4 +1,4 @@
-.searchInputs {
+/* .searchInputs {
     margin-top: 105px;
     display: flex;
   }
@@ -60,10 +60,10 @@
     text-decoration: none;
   }
   
-  a:hover {
+  /* a:hover {
     background-color: lightgrey;
-  }
+  } */
   
-  #clearBtn {
+  /* #clearBtn {
     cursor: pointer;
-  }
+  } */
